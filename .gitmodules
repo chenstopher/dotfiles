@@ -1,0 +1,3 @@
+[submodule "vim/consolas-powerline-vim"]
+	path = vim/consolas-powerline-vim
+	url = https://github.com/eugeii/consolas-powerline-vim
