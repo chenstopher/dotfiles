@@ -5,52 +5,40 @@ set runtimepath+=~/.vim/bundle/neobundle.vim/
 call neobundle#begin(expand('~/.vim/bundle'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
-
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'chriskempson/base16-vim'
-
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'scrooloose/syntastic'
-
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'bcaccinolo/bclose'
-
 NeoBundle 'nosami/Omnisharp'
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/echodoc.vim'
-"NeoBundle 'ervandew/supertab'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'rking/ag.vim'
+NeoBundle 'terryma/vim-smooth-scroll'
+NeoBundle 'terryma/vim-expand-region'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'bling/vim-bufferline'
+
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'othree/html5.vim'
 
 "NeoBundle 'xolox/vim-easytags'
 "NeoBundle 'xolox/vim-misc'
 "NeoBundle 'craigemery/vim-autotag'
-
 "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-NeoBundle 'bling/vim-airline'
-
-NeoBundle 'kien/ctrlp.vim'
-
 "NeoBundle 'vim-scripts/YankRing.vim'
-NeoBundle 'terryma/vim-smooth-scroll'
-
 "NeoBundle 'Shougo/unite.vim'
 "NeoBundle 'Valloric/YouCompleteMe'
-
-NeoBundle 'rking/ag.vim'
-
-NeoBundle 'plasticboy/vim-markdown'
-
-NeoBundle 'othree/html5.vim'
-
 call neobundle#end()
-
 NeoBundleCheck
 
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 1
 let g:airline_theme = 'powerlineish'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#bufferline#enabled = 1
 
 " unicode symbols
 set encoding=utf-8
@@ -63,10 +51,6 @@ let g:airline_symbols.branch = "\u2b60"
 let g:airline_symbols.readonly = "\u2b64"
 let g:airline_symbols.linenr = "\u2b61"
 
-"let g:airline_left_sep=''
-"let g:airline_right_sep=''
-
-
 set directory=~/.vimswap
 set backupdir=~/.vimswap
 
@@ -78,8 +62,28 @@ elseif has("unix")
 	set guifont=Ubuntu\ Mono:h14
 endif        
 
+set guioptions+=ce
+set guioptions-=m
+set guioptions-=t
+set guioptions-=l
+set guioptions-=r
+set guioptions-=b
+set guioptions-=T
+set guioptions-=L
+set guioptions-=R
+set guioptions-=B
+set mouse=a
+set backspace=indent,eol,start
 
-set softtabstop=4
+let base16colorspace=256 
+set vb
+set t_vb=
+set t_Co=256
+set bg=dark
+colorscheme base16-default
+set columns=130
+set lines=52
+
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
@@ -88,56 +92,48 @@ set smartindent
 set ignorecase
 set smartcase
 
-set backspace=2
-
-set guioptions+=ce
-set guioptions-=m
-set guioptions-=t
-set guioptions-=T
-
-set guioptions-=L
-set guioptions-=R
-set guioptions-=B
-
-set guioptions-=l
-set guioptions-=r
-set guioptions-=b
-set mouse=a
-
-set columns=130
-set lines=52
-winpos 850 0
-
-let base16colorspace=256 
-set vb
-set t_vb=
-set t_Co=256
-set bg=dark
-colorscheme base16-default
-
 syntax on
 set hidden
 set history=1000
 set incsearch
 
-set virtualedit=all
-set scrolloff=5
-set sidescroll=1
-set sidescrolloff=5
 set cursorline
 set number
 set ruler
 set showcmd
 set laststatus=2
 set nowrap
-set clipboard=unnamed
+
+set virtualedit=all
+set scrolloff=5
+set sidescroll=1
+set sidescrolloff=5
 
 " Auto change the directory to the current file I'm working on
 "autocmd BufEnter * lcd %:p:h
 
 " key mappings
-nnoremap \\ <C-w><C-w>
-nnoremap \ <C-w>
+let mapleader = "\<Space>"
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+nnoremap <leader>w :w<CR>
+nnoremap <leader>o :CtrlP<CR>
+
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P   
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
+
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
 
 " smooth scroll
 nmap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
@@ -148,33 +144,26 @@ nmap <silent> <PageDown> <c-d>
 " yank ring
 nmap yr :YRShow<CR>
 
-let mapleader = ","
-
 nmap <C-End> :Bclose<CR>
 nmap <C-S-End> :Bclose!<CR>
 
 " Buffer management
-map <left> :bprev <ENTER>
-map <right> :bnext <ENTER>
-map gt :bnext <ENTER>
-map gT :bprev <ENTER>
+map <left> :bprev<CR>
+map <right> :bnext<CR>
+map <C-Tab> :bnext<CR>
+map <C-S-Tab> :bnext<CR>
+map gt :bnext<CR>
+map gT :bprev<CR>
 
 let NERDTreeChDirMode=2
 map <F3> :NERDTreeToggle<ENTER>
 map <S-F3> :NERDTreeToggle %:p:h<ENTER>
-
-map <F11> :setlocal spell!<CR>
 
 " Re-highlight selection after shifting
 vnoremap > >gv
 vnoremap < <gv
 
 set textwidth=0
-
-"tabstop 4!!!!
-autocmd FileType js set tabstop=4
-autocmd FileType html set tabstop=4
-autocmd FileType css set tabstop=4
 
 filetype indent plugin on
 
@@ -211,7 +200,6 @@ autocmd FileType cs nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
 " Run code actions with text selected in visual mode to extract method
 autocmd FileType cs vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
 
-
 set updatetime=300
 
 let g:Omnisharp_stop_server = 0
@@ -245,7 +233,6 @@ let g:neocomplete#enable_refresh_always = 1
 let g:neocomplete#enable_insert_char_pre = 0
 let g:neocomplete#enable_cursor_hold_i = 0
 let g:neocomplete#cursor_hold_i_time = 300
-
 let g:neocomplete#enable_at_startup = 1
 
 set completeopt=longest,menuone
@@ -283,7 +270,6 @@ set splitbelow
 set cmdheight=2
 let g:echodoc_enable_at_startup = 1
 
-
 " syntastic
 let g:syntastic_error_symbol = "\ue0b0"
 let g:syntastic_style_error_symbol = "\ue0b1"
@@ -303,16 +289,8 @@ let g:ctrlp_custom_ignore = {
   \ }
 
 let g:ctrlp_cache_dir = '~/.vim/cache/ctrlp'
-let g:ctrlp_clear_cache_on_exit = '~/.vim/cache/ctrlp'
 let g:ctrlp_lazy_update = 250
-"let g:ctrlp_map = '<c-f>'
-"
-
-" tag stuff
-set tags=./tags;/
-nnoremap <leader>ft :CtrlPTag<CR>
-
-"nnoremap <F6> :call AutoTag()<CR>
+let g:ctrlp_working_path_mode = 'ra'
 
 " ag
 let g:agprg='ag --nogroup --nocolor --column -U -i'
