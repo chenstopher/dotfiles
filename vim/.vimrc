@@ -12,7 +12,6 @@ NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'bcaccinolo/bclose'
-NeoBundle 'nosami/Omnisharp'
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/echodoc.vim'
@@ -21,10 +20,16 @@ NeoBundle 'rking/ag.vim'
 NeoBundle 'terryma/vim-smooth-scroll'
 NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'bling/vim-airline'
-NeoBundle 'bling/vim-bufferline'
+NeoBundle 'OmniSharp/omnisharp-vim'
+NeoBundle 'marijnh/tern_for_vim'
+NeoBundle 'Shutnik/jshint2.vim'
+"NeoBundle 'wookiehangover/jshint.vim'
+NeoBundle 'majutsushi/tagbar'
 
+" Syntax
 NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'othree/html5.vim'
+NeoBundle 'pangloss/vim-javascript'
 
 "NeoBundle 'xolox/vim-easytags'
 "NeoBundle 'xolox/vim-misc'
@@ -36,21 +41,7 @@ NeoBundle 'othree/html5.vim'
 call neobundle#end()
 NeoBundleCheck
 
-let g:airline_theme = 'powerlineish'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#bufferline#enabled = 1
-
-" unicode symbols
 set encoding=utf-8
-let g:airline_symbols = {}
-let g:airline_left_sep = "\u2b80" "use double quotes here
-let g:airline_left_alt_sep = "\u2b81"
-let g:airline_right_sep = "\u2b82"
-let g:airline_right_alt_sep = "\u2b83"
-let g:airline_symbols.branch = "\u2b60"
-let g:airline_symbols.readonly = "\u2b64"
-let g:airline_symbols.linenr = "\u2b61"
-
 set directory=~/.vimswap
 set backupdir=~/.vimswap
 
@@ -109,10 +100,11 @@ set scrolloff=5
 set sidescroll=1
 set sidescrolloff=5
 
-" Auto change the directory to the current file I'm working on
-"autocmd BufEnter * lcd %:p:h
+set textwidth=0
 
+""""""""""""""""""""""""""""""""""""""""""""""""""
 " key mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = "\<Space>"
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -132,8 +124,13 @@ vnoremap <silent> y y`]
 vnoremap <silent> p p`]
 nnoremap <silent> p p`]
 
+" Expand region
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
+
+" Re-highlight selection after shifting
+vnoremap > >gv
+vnoremap < <gv
 
 " smooth scroll
 nmap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
@@ -144,6 +141,7 @@ nmap <silent> <PageDown> <c-d>
 " yank ring
 nmap yr :YRShow<CR>
 
+" bclose
 nmap <C-End> :Bclose<CR>
 nmap <C-S-End> :Bclose!<CR>
 
@@ -155,56 +153,40 @@ map <C-S-Tab> :bnext<CR>
 map gt :bnext<CR>
 map gT :bprev<CR>
 
+" NERD tree
 let NERDTreeChDirMode=2
 map <F3> :NERDTreeToggle<ENTER>
 map <S-F3> :NERDTreeToggle %:p:h<ENTER>
 
-" Re-highlight selection after shifting
-vnoremap > >gv
-vnoremap < <gv
+""""""""""""""""""""""""""""""""""""""""""""
+" PLUGIN CONFIG
+""""""""""""""""""""""""""""""""""""""""""""
 
-set textwidth=0
+"-------------------------------------------
+" airline 
+let g:airline_theme = 'powerlineish'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 
-filetype indent plugin on
+" unicode symbols
+let g:airline_symbols = {}
+let g:airline_left_sep = "\u2b80" "use double quotes here
+let g:airline_left_alt_sep = "\u2b81"
+let g:airline_right_sep = "\u2b82"
+let g:airline_right_alt_sep = "\u2b83"
+let g:airline_symbols.branch = "\u2b60"
+let g:airline_symbols.readonly = "\u2b64"
+let g:airline_symbols.linenr = "\u2b61"
 
-"turn on spell check for text files
-autocmd BufEnter *.txt setlocal spell spelllang=en_us
-autocmd BufEnter *.txt setlocal wrap
-set spellsuggest=fast,5
 
-"php stuff
-autocmd FileType php let php_sql_query=1
-autocmd FileType php let php_htmlInStrings=1
-autocmd FileType php let php_folding=1
-autocmd FileType php set omnifunc=phpcomplete#Complete
-autocmd FileType php set noautoindent
-autocmd FileType php set tabstop=4
-autocmd FileType php set shiftwidth=4
-autocmd FileType php set softtabstop=4
-
-" c#
-"set noshowmatch
-autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
-autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
-autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-"nnoremap <leader>ft :OmniSharpFindType<cr>
-autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
-autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
-autocmd FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
-autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-"let g:OmniSharp_typeLookupInPreview = 1
-
-" Contextual code actions (requires CtrlP)
-autocmd FileType cs nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
-" Run code actions with text selected in visual mode to extract method
-autocmd FileType cs vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
-
-set updatetime=300
-
+"-------------------------------------------
+" omnisharp 
 let g:Omnisharp_stop_server = 0
 let g:OmniSharp_timeout = 5
 
+"-------------------------------------------
+" neocomplete 
+set updatetime=300
 let g:acp_enableAtStartup = 0
 let g:neocomplete#sources#dictionary#dictionaries = {
     \ 'default' : '',
@@ -227,15 +209,23 @@ if !exists('g:neocomplete#sources#omni#input_patterns')
 	let g:neocomplete#sources#omni#input_patterns = {}
 endif
 
+if !exists('g:neocomplete#force_omni_input_patterns')
+	let g:neocomplete#force_omni_input_patterns = {}
+endif
+
 let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\){};]'
 let g:neocomplete#sources.cs = ['omni']
+
+let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
+
 let g:neocomplete#enable_refresh_always = 1
 let g:neocomplete#enable_insert_char_pre = 0
-let g:neocomplete#enable_cursor_hold_i = 0
+let g:neocomplete#enable_cursor_hold_i = 1
 let g:neocomplete#cursor_hold_i_time = 300
 let g:neocomplete#enable_at_startup = 1
 
 set completeopt=longest,menuone
+
 
 " Auto complete keybindings
 " <CR>: close popup and save indent.
@@ -265,23 +255,32 @@ inoremap <expr><ESC> pumvisible() ? neocomplete#cancel_popup() : "\<ESC>"
 " BACKSPACE closes the autocomplete window and backspaces
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<BS>"
 
+"-------------------------------------------
 " echodoc
 set splitbelow
 set cmdheight=2
 let g:echodoc_enable_at_startup = 1
 
+"-------------------------------------------
 " syntastic
-let g:syntastic_error_symbol = "\ue0b0"
-let g:syntastic_style_error_symbol = "\ue0b1"
-let g:syntastic_warning_symbol = "\ue0b0"
-let g:syntastic_style_warning_symbol = "\ue0b1"
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_auto_loc_list = 2
+let g:syntastic_always_populate_loc_list = 1
+
+let g:syntastic_error_symbol = "\u2b80"
+let g:syntastic_style_error_symbol = "\u2b81"
+let g:syntastic_warning_symbol = "\u2b80"
+let g:syntastic_style_warning_symbol = "\u2b81"
+let g:syntastic_javascript_checkers = ['jshint']
 
 highlight SyntasticErrorSign guifg=#ff0000 guibg=#282828
 highlight SyntasticStyleErrorSign guifg=#ff0000 guibg=#282828
 highlight SyntasticWarningSign guifg=#fabd2f guibg=#282828
 highlight SyntasticStyleWarningSign guifg=#fabd2f guibg=#282828
 
-" ctrl p
+"-------------------------------------------
+" ctrlp
 " ignore vcs, ignore meta
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -292,5 +291,53 @@ let g:ctrlp_cache_dir = '~/.vim/cache/ctrlp'
 let g:ctrlp_lazy_update = 250
 let g:ctrlp_working_path_mode = 'ra'
 
+"-------------------------------------------
 " ag
 let g:agprg='ag --nogroup --nocolor --column -U -i'
+
+""""""""""""""""""""""""""""""""""""""""""""
+" FILE SPECIFIC
+""""""""""""""""""""""""""""""""""""""""""""
+filetype indent plugin on
+
+"turn on spell check for text files
+autocmd BufEnter *.txt setlocal spell spelllang=en_us
+autocmd BufEnter *.txt setlocal wrap
+set spellsuggest=fast,5
+
+"php stuff
+autocmd FileType php let php_sql_query=1
+autocmd FileType php let php_htmlInStrings=1
+autocmd FileType php let php_folding=1
+autocmd FileType php set omnifunc=phpcomplete#Complete
+autocmd FileType php set noautoindent
+autocmd FileType php set tabstop=4
+autocmd FileType php set shiftwidth=4
+autocmd FileType php set softtabstop=4
+
+" c#
+"set noshowmatch
+autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
+autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
+autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
+autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
+autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
+autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
+autocmd FileType cs nnoremap <leader>fd :OmniSharpDocumentation<cr>
+autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+"let g:OmniSharp_typeLookupInPreview = 1
+
+" Contextual code actions (requires CtrlP)
+autocmd FileType cs nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
+" Run code actions with text selected in visual mode to extract method
+autocmd FileType cs vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
+
+" javascript
+autocmd FileType javascript setlocal omnifunc=tern#Complete
+autocmd FileType javascript nnoremap gd :TernDef<CR>
+autocmd FileType javascript nnoremap gr :TernRename<CR>
+autocmd FileType javascript nnoremap <leader>ft :TernType<CR>
+autocmd FileType javascript nnoremap <leader>fu :TernRefs<CR>
+autocmd FileType javascript nnoremap <leader>fr :TernRefs<CR>
+autocmd FileType javascript nnoremap <leader>fd :TernDoc<CR>
