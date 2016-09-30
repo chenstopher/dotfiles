@@ -1,0 +1,41 @@
+set autoindent
+set smartindent
+set smartcase
+set visualbell
+
+set virtualedit=all
+set scrolloff=5
+set sidescroll=1
+set sidescrolloff=5
+
+let mapleader = " "
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
+nnoremap <C-H> <C-W>h
+
+nnoremap <leader>w :w<CR>
+nnoremap <leader>o :action SearchEverywhere<CR>
+
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P   
+vnoremap <silent> y y`]
+vnoremap <silent> p p`]
+nnoremap <silent> p p`]
+
+" Re-highlight selection after shifting
+vnoremap > >gv
+vnoremap < <gv
+
+nmap <C-End> :q<CR>
+
+nnoremap gd :action GotoDeclaration<cr>
+nnoremap <leader>fi :action GotoImplementation<cr>
+nnoremap <leader>fu :action FindUsages<cr>
+nnoremap <leader>fd :action QuickJavaDoc<cr>
+
+nnoremap <leader>fp :action ParameterInfo<cr>
