@@ -13,18 +13,20 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'bcaccinolo/bclose'
 NeoBundle 'tpope/vim-dispatch'
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/echodoc.vim'
+"NeoBundle 'Shougo/neocomplete.vim'
+"NeoBundle 'Shougo/echodoc.vim'
+"NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'xleng/YCM_WIN_X86'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'terryma/vim-smooth-scroll'
-NeoBundle 'terryma/vim-expand-region'
+"NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'OmniSharp/omnisharp-vim'
 NeoBundle 'marijnh/tern_for_vim'
 NeoBundle 'Shutnik/jshint2.vim'
 "NeoBundle 'wookiehangover/jshint.vim'
-NeoBundle 'majutsushi/tagbar'
+"NeoBundle 'majutsushi/tagbar'
 
 " Syntax
 NeoBundle 'plasticboy/vim-markdown'
@@ -184,76 +186,78 @@ let g:airline_symbols.linenr = "\u2b61"
 let g:Omnisharp_stop_server = 0
 let g:OmniSharp_timeout = 5
 
+" ------------------------------------------
+" youcompleteme
+let g:ycm_auto_trigger = 0
+let g:ycm_min_num_of_chars_for_completion = 99
+
 "-------------------------------------------
 " neocomplete 
-set updatetime=300
-let g:acp_enableAtStartup = 0
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist'
-        \ }
+"let g:acp_enableAtStartup = 0
+"let g:neocomplete#sources#dictionary#dictionaries = {
+    "\ 'default' : '',
+    "\ 'vimshell' : $HOME.'/.vimshell_hist'
+        "\ }
 
-let g:neocomplete#enable_auto_select = 0
-let g:neocomplete#disable_auto_complete = 0
-let g:neocomplete#enable_smart_case = 0
-let g:neocomplete#enable_camel_case = 0
-let g:neocomplete#enable_ignore_case = 1
+"let g:neocomplete#enable_auto_select = 0
+"let g:neocomplete#disable_auto_complete = 0
+"let g:neocomplete#enable_smart_case = 0
+"let g:neocomplete#enable_camel_case = 0
+"let g:neocomplete#enable_ignore_case = 1
+""let g:neocomplete#enable_refresh_always = 1
+"let g:neocomplete#enable_insert_char_pre = 0
+"let g:neocomplete#enable_cursor_hold_i = 0
+""let g:neocomplete#cursor_hold_i_time = 1000
+"let g:neocomplete#enable_at_startup = 1
+"let g:neocomplete#enable_fuzzy_completion = 0
+""set completeopt=longest,menuone
 
-call neocomplete#custom#source('_', 'sorters', [])
+"call neocomplete#custom#source('_', 'sorters', [])
 
-if !exists('g:neocomplete#sources')
-	let g:neocomplete#sources = {}
-endif
+"if !exists('g:neocomplete#sources')
+	"let g:neocomplete#sources = {}
+"endif
 
-if !exists('g:neocomplete#sources#omni#input_patterns')
-	let g:neocomplete#sources#omni#input_patterns = {}
-endif
+"if !exists('g:neocomplete#sources#omni#input_patterns')
+	"let g:neocomplete#sources#omni#input_patterns = {}
+"endif
 
-if !exists('g:neocomplete#force_omni_input_patterns')
-	let g:neocomplete#force_omni_input_patterns = {}
-endif
+"if !exists('g:neocomplete#force_omni_input_patterns')
+	"let g:neocomplete#force_omni_input_patterns = {}
+"endif
 
-let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\){};]'
-let g:neocomplete#sources.cs = ['omni']
+"let g:neocomplete#sources#omni#input_patterns.cs = '.*[^=\){};]'
+"let g:neocomplete#sources.cs = ['omni']
 
-let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
-
-let g:neocomplete#enable_refresh_always = 1
-let g:neocomplete#enable_insert_char_pre = 0
-let g:neocomplete#enable_cursor_hold_i = 1
-let g:neocomplete#cursor_hold_i_time = 300
-let g:neocomplete#enable_at_startup = 1
-
-set completeopt=longest,menuone
+"let g:neocomplete#sources#omni#input_patterns.javascript = '[^. \t]\.\w*'
+""let g:neocomplete#force_omni_input_patterns.javascript = '[^. \t]\.\w*'
 
 
-" Auto complete keybindings
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  "return neocomplete#close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
+"" Auto complete keybindings
+"" <CR>: close popup and save indent.
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+  ""return neocomplete#close_popup() . "\<CR>"
+  "" For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+"endfunction
 
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
-let g:SuperTabDefaultCompletionType = "<c-n>"
-let g:SuperTabContextDefaultCompletionType = "<c-n>"
+"" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<TAB>"
 
-" use ctrl space for omnicomplete
-inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
-\ "\<lt>C-n>" :
-\ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
-\ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
-\ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
-imap <C-@> <C-Space>
+"" use ctrl space for omnicomplete
+"inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
+"\ "\<lt>C-n>" :
+"\ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
+"\ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
+"\ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
+"imap <C-@> <C-Space>
 
-" <ESC> cancels the autocomplete window
-inoremap <expr><ESC> pumvisible() ? neocomplete#cancel_popup() : "\<ESC>"
-" BACKSPACE closes the autocomplete window and backspaces
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<BS>"
+"" <ESC> cancels the autocomplete window
+"inoremap <expr><ESC> pumvisible() ? neocomplete#cancel_popup() : "\<ESC>"
+"" BACKSPACE closes the autocomplete window and backspaces
+"inoremap <expr><BS> neocomplete#smart_close_popup()."\<BS>"
 
 "-------------------------------------------
 " echodoc
@@ -263,10 +267,12 @@ let g:echodoc_enable_at_startup = 1
 
 "-------------------------------------------
 " syntastic
-let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 2
+"let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_enable_balloons = 0
+let g:syntastic_enable_highlighting = 0
 
 let g:syntastic_error_symbol = "\u2b80"
 let g:syntastic_style_error_symbol = "\u2b81"
@@ -301,43 +307,56 @@ let g:agprg='ag --nogroup --nocolor --column -U -i'
 filetype indent plugin on
 
 "turn on spell check for text files
-autocmd BufEnter *.txt setlocal spell spelllang=en_us
-autocmd BufEnter *.txt setlocal wrap
-set spellsuggest=fast,5
+augroup filetype_txt
+	autocmd!
+	autocmd BufEnter *.txt setlocal spell spelllang=en_us
+	autocmd BufEnter *.txt setlocal wrap
+	set spellsuggest=fast,5
+augroup END
 
 "php stuff
-autocmd FileType php let php_sql_query=1
-autocmd FileType php let php_htmlInStrings=1
-autocmd FileType php let php_folding=1
-autocmd FileType php set omnifunc=phpcomplete#Complete
-autocmd FileType php set noautoindent
-autocmd FileType php set tabstop=4
-autocmd FileType php set shiftwidth=4
-autocmd FileType php set softtabstop=4
+augroup filetype_php
+	autocmd!
+	autocmd FileType php let php_sql_query=1
+	autocmd FileType php let php_htmlInStrings=1
+	autocmd FileType php let php_folding=1
+	autocmd FileType php set omnifunc=phpcomplete#Complete
+	autocmd FileType php set noautoindent
+	autocmd FileType php set tabstop=4
+	autocmd FileType php set shiftwidth=4
+	autocmd FileType php set softtabstop=4
+augroup END
 
 " c#
-"set noshowmatch
-autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
-autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
-autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
-autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
-autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
-autocmd FileType cs nnoremap <leader>fd :OmniSharpDocumentation<cr>
-autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-"let g:OmniSharp_typeLookupInPreview = 1
+"
+augroup filetype_cs
+	autocmd!
+	"set noshowmatch
+	autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+	autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
+	autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
+	autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
+	autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
+	autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
+	autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
+	autocmd FileType cs nnoremap <leader>fd :OmniSharpDocumentation<cr>
+	autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+	"let g:OmniSharp_typeLookupInPreview = 1
 
-" Contextual code actions (requires CtrlP)
-autocmd FileType cs nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
-" Run code actions with text selected in visual mode to extract method
-autocmd FileType cs vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
+	" Contextual code actions (requires CtrlP)
+	autocmd FileType cs nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
+	" Run code actions with text selected in visual mode to extract method
+	autocmd FileType cs vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
+augroup END
 
 " javascript
-autocmd FileType javascript setlocal omnifunc=tern#Complete
-autocmd FileType javascript nnoremap gd :TernDef<CR>
-autocmd FileType javascript nnoremap gr :TernRename<CR>
-autocmd FileType javascript nnoremap <leader>ft :TernType<CR>
-autocmd FileType javascript nnoremap <leader>fu :TernRefs<CR>
-autocmd FileType javascript nnoremap <leader>fr :TernRefs<CR>
-autocmd FileType javascript nnoremap <leader>fd :TernDoc<CR>
+augroup filetype_js
+	autocmd!
+	autocmd FileType javascript setlocal omnifunc=tern#Complete
+	autocmd FileType javascript nnoremap gd :TernDef<CR>
+	autocmd FileType javascript nnoremap gr :TernRename<CR>
+	autocmd FileType javascript nnoremap <leader>ft :TernType<CR>
+	autocmd FileType javascript nnoremap <leader>fu :TernRefs<CR>
+	autocmd FileType javascript nnoremap <leader>fr :TernRefs<CR>
+	autocmd FileType javascript nnoremap <leader>fd :TernDoc<CR>
+augroup END
