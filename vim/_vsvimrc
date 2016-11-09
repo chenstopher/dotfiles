@@ -1,0 +1,22 @@
+set ignorecase smartcase
+set number
+set backspace=indent,eol,start
+
+nnoremap gd :vsc ReSharper.ReSharper_GotoDeclaration<CR>
+nnoremap gi :vsc ReSharper.ReSharper_GotoImplementation<CR>
+
+let mapleader = "<space>"
+nnoremap <leader>o :vsc ReSharper.ReSharper_GotoType<CR>
+nnoremap <leader>ft :vsc ReSharper.ReSharper_GotoType<CR>
+nnoremap <leader>fs :vsc ReSharper.ReSharper_GotoSymbol<CR>
+nnoremap <leader>fu :vsc ReSharper.ReSharper_FindUsages<CR>
+nnoremap <leader>fi :vsc ReSharper.ReSharper_GotoImplementation<CR>
+nnoremap <leader>rr :vsc ReSharper.ReSharper_RefactorThis<CR>
+vnoremap <leader>rr :vsc ReSharper.ReSharper_RefactorThis<CR>
+
+nnoremap <leader>cc :vsc ReSharper.ReSharper_LineComment<CR>
+vnoremap <leader>cc :vsc ReSharper.ReSharper_LineComment<CR>
+
+nnoremap <leader>tt :vsc ReSharper.ReSharper_UnitTestRunContext<CR>
+nnoremap <leader>ta :vsc ReSharper.ReSharper_UnitTestRunSolution<CR>
+nnoremap <leader>td :vsc ReSharper.ReSharper_UnitTestDebugContext<CR>
