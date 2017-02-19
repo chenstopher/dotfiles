@@ -36,6 +36,9 @@ nmap <C-End> :q<CR>
 nnoremap gd :action GotoDeclaration<cr>
 nnoremap <leader>fi :action GotoImplementation<cr>
 nnoremap <leader>fu :action FindUsages<cr>
-nnoremap <leader>fd :action QuickJavaDoc<cr>
-
 nnoremap <leader>fp :action ParameterInfo<cr>
+nnoremap <leader>fd :action QuickJavaDoc<cr>
+nnoremap <leader>fe :action ShowErrorDescription<cr>
+
+nnoremap <leader>rr :action Refactorings.QuickListPopupAction<cr>
+
