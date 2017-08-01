@@ -16,13 +16,14 @@ NeoBundle 'tpope/vim-dispatch'
 "NeoBundle 'Shougo/neocomplete.vim'
 "NeoBundle 'Shougo/echodoc.vim'
 "NeoBundle 'Valloric/YouCompleteMe'
-NeoBundle 'xleng/YCM_WIN_X86'
+"NeoBundle 'xleng/YCM_WIN_X86'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'rking/ag.vim'
 NeoBundle 'terryma/vim-smooth-scroll'
 "NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'bling/vim-airline'
-NeoBundle 'OmniSharp/omnisharp-vim'
+NeoBundle 'vim-airline/vim-airline-themes'
+"NeoBundle 'OmniSharp/omnisharp-vim'
 NeoBundle 'marijnh/tern_for_vim'
 NeoBundle 'Shutnik/jshint2.vim'
 "NeoBundle 'wookiehangover/jshint.vim'
@@ -39,7 +40,6 @@ NeoBundle 'pangloss/vim-javascript'
 "NeoBundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 "NeoBundle 'vim-scripts/YankRing.vim'
 "NeoBundle 'Shougo/unite.vim'
-"NeoBundle 'Valloric/YouCompleteMe'
 call neobundle#end()
 NeoBundleCheck
 
@@ -49,7 +49,7 @@ set backupdir=~/.vimswap
 
 if has("win32")
 	set guifont=Consolas_for_Powerline_FixedD:h11
-elseif has("macunix")
+elseif has("macunix") 
 	set guifont=Monospace\ 12
 elseif has("unix")
 	set guifont=Ubuntu\ Mono:h14
@@ -73,7 +73,7 @@ set vb
 set t_vb=
 set t_Co=256
 set bg=dark
-colorscheme base16-default
+colorscheme base16-default-dark
 set columns=130
 set lines=52
 
@@ -166,30 +166,41 @@ map <S-F3> :NERDTreeToggle %:p:h<ENTER>
 
 "-------------------------------------------
 " airline 
-let g:airline_theme = 'powerlineish'
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme = 'powerlineish'
 
 " unicode symbols
-let g:airline_symbols = {}
-let g:airline_left_sep = "\u2b80" "use double quotes here
-let g:airline_left_alt_sep = "\u2b81"
-let g:airline_right_sep = "\u2b82"
-let g:airline_right_alt_sep = "\u2b83"
-let g:airline_symbols.branch = "\u2b60"
-let g:airline_symbols.readonly = "\u2b64"
-let g:airline_symbols.linenr = "\u2b61"
+if has("win32")
+	let g:airline_symbols = {}
+	let g:airline_left_sep = "\u2b80" "use double quotes here
+	let g:airline_left_alt_sep = "\u2b81"
+	let g:airline_right_sep = "\u2b82"
+	let g:airline_right_alt_sep = "\u2b83"
+	let g:airline_symbols.branch = "\u2b60"
+	let g:airline_symbols.readonly = "\u2b64"
+	let g:airline_symbols.linenr = "\u2b61"
+elseif has("macunix") || has("unix")
+	let g:airline_symbols = {}
+	let g:airline_left_sep = ''
+	let g:airline_left_alt_sep = ''
+	let g:airline_right_sep = ''
+	let g:airline_right_alt_sep = ''
+	let g:airline_symbols.branch = ''
+	let g:airline_symbols.readonly = ''
+	let g:airline_symbols.linenr = ''
+endif
 
 
 "-------------------------------------------
 " omnisharp 
-let g:Omnisharp_stop_server = 0
-let g:OmniSharp_timeout = 5
+"let g:Omnisharp_stop_server = 0
+"let g:OmniSharp_timeout = 5
 
 " ------------------------------------------
 " youcompleteme
-let g:ycm_auto_trigger = 0
-let g:ycm_min_num_of_chars_for_completion = 99
+"let g:ycm_auto_trigger = 0
+"let g:ycm_min_num_of_chars_for_completion = 99
 
 "-------------------------------------------
 " neocomplete 
@@ -329,25 +340,25 @@ augroup END
 
 " c#
 "
-augroup filetype_cs
-	autocmd!
-	"set noshowmatch
-	autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
-	autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
-	autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
-	autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
-	autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
-	autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
-	autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
-	autocmd FileType cs nnoremap <leader>fd :OmniSharpDocumentation<cr>
-	autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
-	"let g:OmniSharp_typeLookupInPreview = 1
+"augroup filetype_cs
+	"autocmd!
+	""set noshowmatch
+	"autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+	"autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
+	"autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
+	"autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
+	"autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
+	"autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
+	"autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembersInBuffer<cr>
+	"autocmd FileType cs nnoremap <leader>fd :OmniSharpDocumentation<cr>
+	"autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+	""let g:OmniSharp_typeLookupInPreview = 1
 
-	" Contextual code actions (requires CtrlP)
-	autocmd FileType cs nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
-	" Run code actions with text selected in visual mode to extract method
-	autocmd FileType cs vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
-augroup END
+	"" Contextual code actions (requires CtrlP)
+	"autocmd FileType cs nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
+	"" Run code actions with text selected in visual mode to extract method
+	"autocmd FileType cs vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
+"augroup END
 
 " javascript
 augroup filetype_js
