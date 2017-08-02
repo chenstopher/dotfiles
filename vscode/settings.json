@@ -1,0 +1,44 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "telemetry.enableTelemetry": false,
+
+    "vim.leader": "<space>",
+    "vim.ignorecase": true,
+    "vim.smartcase": true,
+    "vim.useCtrlKeys": true,
+    "vim.otherModesKeyBindings": [
+        {
+            "before": ["leader", "a"],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.showCommands",
+                    "args": []
+                }
+            ]
+        },
+        {
+            "before": ["leader", "o"],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.quickOpen",
+                    "args": []
+                }
+            ]
+        },
+        {
+            "before": ["leader", "w"],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.files.save",
+                    "args": []
+                }
+            ]
+        }
+    ],
+    "editor.renderControlCharacters": false,
+    "window.zoomLevel": 0,
+    "vim.disableAnnoyingNeovimMessage": true
+}
